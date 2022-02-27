@@ -9,6 +9,7 @@ var app = express();
 // so that your API is remotely testable by FCC 
 var cors = require('cors');
 app.use(cors({optionsSuccessStatus: 200}));  // some legacy browsers choke on 204
+const port = 3000;
 
 // http://expressjs.com/en/starter/static-files.html
 app.use(express.static('public'));
@@ -37,7 +38,7 @@ app.get("/api/:time", function (req, res) {
   const utc = new Date(parseInt(unix)).toUTCString();
   
   if(new Date(parseInt(time)).toString() === "Invalid Date"){
-    res.json({
+    res.status(500).json({
       error: "Invalid Date"
     });
     return;
@@ -46,19 +47,21 @@ app.get("/api/:time", function (req, res) {
   if(!unix){
     const unix = parseInt(time);
     const utc = new Date(parseInt(unix)).toUTCString();
-    res.json({
+    res.status(200).json({
       unix: unix,
       utc: utc
     })
+  }else{
+    res.status(200).json({
+      unix: unix,
+      utc: utc,
+    })
   }
-  res.json({
-    unix: unix,
-    utc: utc,
-  })
+  
 });
 
 
 // listen for requests :)
-var listener = app.listen(process.env.PORT, function () {
-  console.log('Your app is listening on port ' + listener.address().port);
+app.listen(port, function() {
+  console.log(`Listening on port ${port}`);
 });
