@@ -9,5 +9,5 @@ yarn install
 ```
 ### Compiles and low-reloads for development
 ```
-node app.js
+node server.js
 ```
